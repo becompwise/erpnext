@@ -23,7 +23,7 @@ def get_default_company(user=None):
 	return default_company
 
 
-def get_default_currency():
+def get_default_currency(): 
 	"""Returns the currency of the default company"""
 	company = get_default_company()
 	if company:
