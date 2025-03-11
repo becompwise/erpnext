@@ -117,7 +117,12 @@ def get_asset_depreciation_schedules_map():
 		.orderby(ds.idx)
 	).run(as_dict=True)
 
-	asset_depreciation_schedules_map = group_records_by_asset_name(records)
+	if len(records) > 20000:
+		frappe.db.auto_commit_on_many_writes = True
+
+	asset_depreciation_schedules_map = frappe._dict()
+	for d in records:
+		asset_depreciation_schedules_map.setdefault((d.asset_name, cstr(d.finance_book)), []).append(d)
 
 	return asset_depreciation_schedules_map
 
